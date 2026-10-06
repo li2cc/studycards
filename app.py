@@ -274,6 +274,21 @@ init_db()
 ensure_cards_schema()
 
 
+def ensure_initial_cards_loaded() -> int:
+    conn = get_connection()
+    count = conn.execute("SELECT COUNT(*) FROM Cards WHERE category = 'US Presidents'").fetchone()[0]
+    conn.close()
+
+    if count > 0:
+        return count
+
+    try:
+        imported = fetch_president_cards(force_refresh=True, topic="US Presidents")
+        return len(imported)
+    except Exception:
+        return 0
+
+
 def card_exists_by_name(name: str) -> bool:
     conn = get_connection()
     result = conn.execute("SELECT 1 FROM Cards WHERE lower(name) = lower(?) LIMIT 1", (name,)).fetchone()
@@ -764,6 +779,9 @@ def render_study_mode():
         st.warning("Please log in before using study mode.")
         return
 
+    if get_db_stats()["cards"] == 0:
+        ensure_initial_cards_loaded()
+
     cards = get_all_cards()
     if not cards:
         st.info("There are no cards to study yet. Please build the database first.")
@@ -843,6 +861,9 @@ def render_quiz_mode():
     if "current_user" not in st.session_state or not st.session_state["current_user"]:
         st.warning("Please log in before using the quiz.")
         return
+
+    if get_db_stats()["cards"] == 0:
+        ensure_initial_cards_loaded()
 
     cards = get_all_cards()
     if not cards:
@@ -932,6 +953,9 @@ def render_competition_mode():
     if "current_user" not in st.session_state or not st.session_state["current_user"]:
         st.warning("Please log in before entering competition mode.")
         return
+
+    if get_db_stats()["cards"] == 0:
+        ensure_initial_cards_loaded()
 
     cards = get_all_cards()
     if not cards:
@@ -1146,6 +1170,9 @@ def app_navigation():
 
 def main():
     st.set_page_config(page_title="WikiCard Learning System", page_icon="📚", layout="wide")
+
+    if get_db_stats()["cards"] == 0:
+        ensure_initial_cards_loaded()
 
     st.sidebar.image(
         "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=200&q=80",

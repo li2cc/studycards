@@ -1,0 +1,190 @@
+Build a complete educational web application called “President Cards” using Python, Streamlit, and SQLite.
+
+Project goal:
+Create a polished, interactive learning app for studying the presidents of the United States. The app should be engaging, visually clean, and academically useful. It should feel like a modern flashcard + quiz + mini competition app for learning presidential facts, office history, and notable achievements.
+
+Core tech stack:
+- Python
+- Streamlit for the frontend UI
+- SQLite for persistent local storage
+- requests for HTTP fetching
+- BeautifulSoup for parsing Wikipedia pages
+- pandas for data processing if needed
+- optional: plotly for charts/visualizations if helpful for timeline or stats
+
+Application requirements:
+1. Build a single-page app with a clean dashboard and multiple study modes.
+2. The app must work locally without external cloud services.
+3. It should load and persist data in SQLite so the app can be restarted without losing progress.
+4. All president data should come from a reliable source such as Wikipedia and be normalized into a local database.
+
+Main user-facing features:
+A. Home dashboard / front page
+- Show a grid or gallery of all US presidents as cards.
+- Each card should include:
+  - president name
+  - portrait or image if available
+  - presidential order number
+  - time in office
+  - short summary or memorable fact
+- The card view should be clean and educational, not cluttered.
+- Each president name should be clickable and navigate to that president’s dedicated detail page.
+
+B. Individual president detail page
+- Each president has a dedicated page.
+- Display:
+  - full name
+  - presidency number
+  - term dates
+  - relevant political era
+  - source link to Wikipedia
+  - brief, polished biography summary
+  - a list of the most important or memorable achievements or records
+- The summary should be concise, readable, and around 100–150 words.
+- Keep the summary from being overly long or repetitive.
+- The “why this president matters” section should not be shown as a large separate block unless specifically needed.
+- The details should be factual and tied to the president’s office.
+
+C. Study mode
+- Show cards for presidents one at a time.
+- The card should display only the basic recall prompt, not the full answer initially.
+- When the user clicks “Show Answer,” reveal:
+  - the summary
+  - Wikipedia link
+  - the memorable facts
+- The answer should not appear by default; it should appear only after clicking.
+- Do not show the long answer on the initial card display.
+- Remove unnecessary hint text or extra helper fields.
+- The study card should remain visually simple and focused.
+- Use a clean “front / back” flashcard experience.
+
+D. Quiz mode
+- Present a multiple-choice question for a president.
+- Show 5 answer options.
+- Exactly one option should be the correct answer.
+- Include answer checking and feedback.
+- Track score and progress.
+- Support repeated rounds.
+
+E. Competition mode
+- Present a game-like question challenge with multiple presidents.
+- Show 5 options for the selected question.
+- Only one option is correct.
+- Show score, streak, or leaderboard-like behavior if appropriate.
+- Make it feel fun but educational.
+
+F. Ranking / progress panel
+- Add a simple right-side ranking or progress bar for the current president or study session.
+- Do not overdo the visual clutter.
+- The right-hand side may show:
+  - completion progress
+  - notable records
+  - current study status
+- The ranking bar should be subtle and informative.
+
+G. Timeline / chronology
+- The timeline should be polished and true to chronology.
+- Do not use a fake or inconsistent chronology.
+- Show a real time-based progression of presidents in order.
+- Highlight the current/selected president clearly on the timeline.
+- Avoid the old “timeline bar” style that looked disconnected or inaccurate.
+- The timeline should read like a real chronological line chart or ordered history track.
+
+Data model and backend:
+- Create a SQLite database with a table for President cards.
+- Fields should include:
+  - id
+  - name
+  - presidency_order
+  - term_start
+  - term_end
+  - office_years
+  - summary
+  - source_url
+  - image_url (if available)
+  - highlights
+  - category
+  - created_at/updated_at
+- Ensure exact and correct values for the presidency number and office dates.
+- Example:
+  - Bill Clinton should be shown as 42nd President of the United States
+  - Bill Clinton’s term dates should be January 20, 1993 – January 20, 2001
+- For older records, fix stale or unknown values by backfilling data from authoritative sources.
+
+Data source behavior:
+- Use a scraper to fetch presidential pages from Wikipedia.
+- Extract:
+  - summary paragraph
+  - office dates
+  - presidency number
+  - notable achievements
+  - biography snippet
+- Clean up noisy HTML, citations, and broken references.
+- Normalize URLs and remove junk text.
+- If data is missing, gracefully fallback to a helpful default rather than showing “unknown” or empty values.
+- The app should not trigger excessive network calls on every startup.
+- The scraper should run efficiently and avoid slow page loads.
+
+Important UX rules:
+- Do not show the Wiki link and long summary immediately on the study page.
+- Only reveal them after “Show Answer.”
+- Remove old deprecated Streamlit patterns or warnings from the UI.
+- Ensure the page is responsive and looks polished on a normal desktop browser.
+- Keep the app lightweight and fast.
+- Remove any unnecessary noise from the study interface.
+- Prioritize clarity and learning over flashy design.
+
+Functional acceptance criteria:
+- The app starts successfully with Streamlit.
+- SQLite data is created automatically if missing.
+- The app displays all presidents.
+- Each president can be opened via a click.
+- Study mode reveals content only after interaction.
+- Quiz mode has 5 answer options, one correct answer.
+- Competition mode has 5 options, one correct answer.
+- Timeline reflects real chronology.
+- Correct office dates and presidential numbering appear for each president.
+- The app handles missing or stale data gracefully.
+- The app does not unnecessarily slow down startup.
+- The app is stable and reliable when used repeatedly.
+
+Additional implementation guidance:
+- Use a single main app file such as app.py for simplicity.
+- Structure the code clearly into sections:
+  - database helpers
+  - data fetching and scraping
+  - serialization/normalization
+  - rendering UI
+  - study mode
+  - quiz mode
+  - competition mode
+  - detail page logic
+- Keep the code modular but not over-engineered.
+- Add initialization logic to create the SQLite database and seed missing data.
+- Add fallback handling for outdated rows and missing fields.
+- Use a clean modern UI style with readable typography and balanced spacing.
+- Focus on an educational tone rather than a generic generic web app style.
+
+Desired final app behavior:
+The final app should feel like a complete, polished educational product for learning U.S. presidents. It should combine:
+- a browsable card library
+- an individual president detail page
+- a study flashcard experience
+- a multiple-choice quiz
+- a competition mode
+- a chronological timeline
+- database-backed persistence
+- polished summary, metadata, and source link display
+
+Output:
+Generate the full working application code, including:
+- app.py
+- requirements.txt
+- SQLite schema initialization
+- any helper modules as needed
+- startup instructions
+- local run instructions
+- comments explaining key logic
+
+Quality bar:
+The app should be production-quality, readable, and robust. Avoid placeholder text and generic mockups. Use real president data and a usable educational interface.
